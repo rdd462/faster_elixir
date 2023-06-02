@@ -10,7 +10,7 @@ it is still faster that `++`.
 Performance of different approaches also depends on the adding element type, and there will be a difference if it is a list or a single element.
 In the mentioned benchmark the adding element was a list, so let's try to check the other case when the new element is not a list.
 
-```shell
+```
 $ mix run lib/list_add.ex
 Operating System: macOS
 CPU Information: Apple M1 Pro
@@ -96,4 +96,72 @@ Concatenation              8.52
 EnumConcatenation          8.50 - 1.00x slower +0.32 ms
 Double Reverse             4.70 - 1.81x slower +95.37 ms
 Flatten                    2.11 - 4.03x slower +355.65 ms
+```
+
+## Match two lists using `for` vs `Enum.find`
+
+```
+
+```shell
+Operating System: macOS
+CPU Information: Apple M1 Pro
+Number of Available Cores: 10
+Available memory: 32 GB
+Elixir 1.13.2
+Erlang 24.2.1
+
+Benchmark suite executing with the following configuration:
+warmup: 2 s
+time: 10 s
+memory time: 0 ns
+reduction time: 0 ns
+parallel: 1
+inputs: 10, 100, 1000, 10k
+Estimated total run time: 1.60 min
+
+Benchmarking Enum.Find with input 10 ...
+Benchmarking Enum.Find with input 100 ...
+Benchmarking Enum.Find with input 1000 ...
+Benchmarking Enum.Find with input 10k ...
+Benchmarking For with input 10 ...
+Benchmarking For with input 100 ...
+Benchmarking For with input 1000 ...
+Benchmarking For with input 10k ...
+
+##### With input 10 #####
+Name                ips        average  deviation         median         99th %
+For            453.42 K        2.21 μs    ±91.79%        2.20 μs        3.10 μs
+Enum.Find      320.35 K        3.12 μs    ±39.14%           3 μs        4.70 μs
+
+Comparison: 
+For            453.42 K
+Enum.Find      320.35 K - 1.42x slower +0.92 μs
+
+##### With input 100 #####
+Name                ips        average  deviation         median         99th %
+For              6.28 K      159.14 μs     ±2.58%         158 μs         173 μs
+Enum.Find        5.42 K      184.54 μs     ±4.75%         182 μs         212 μs
+
+Comparison: 
+For              6.28 K
+Enum.Find        5.42 K - 1.16x slower +25.41 μs
+
+##### With input 1000 #####
+Name                ips        average  deviation         median         99th %
+For               64.97       15.39 ms     ±0.66%       15.37 ms       15.83 ms
+Enum.Find         58.82       17.00 ms     ±0.62%       16.98 ms       17.45 ms
+
+Comparison: 
+For               64.97
+Enum.Find         58.82 - 1.10x slower +1.61 ms
+
+##### With input 10k #####
+Name                ips        average  deviation         median         99th %
+For                0.65         1.53 s     ±0.22%         1.53 s         1.54 s
+Enum.Find          0.59         1.68 s     ±1.01%         1.67 s         1.71 s
+
+Comparison: 
+For                0.65
+Enum.Find          0.59 - 1.10x slower +0.153 s
+
 ```
